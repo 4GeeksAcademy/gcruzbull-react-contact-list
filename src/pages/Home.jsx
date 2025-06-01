@@ -1,37 +1,42 @@
+import { Link } from "react-router-dom";
 import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import Card from "../components/Card.jsx";
+import { useEffect, useState } from "react";
 
 export const Home = () => {
 
 	const { store, dispatch } = useGlobalReducer()
+
+	useEffect(() => {
+		fetch("https://playground.4geeks.com/contact/agendas/Guillermo-Cruz/contacts")
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error("Error al obtener los contactos")	
+			}
+			return response.json()
+		})
+		.then((data) => {
+			console.log(data)
+			dispatch({type: "set_contacts", payload: {contacts: data.contacts}})
+		})
+		.catch((error) => {
+			console.error(error)
+		})
+	}, [])
 
 	return (
 		<div className="text-center mt-5">
 			<h1>Contact List</h1>
 			{/* contenedor de las cards */}
 			<div>
-				{/* card */}
-				<div className="card mb-3" style={{maxWidth: "540px"}}>
-					<div className="row g-0">
+				{store.contacts && store.contacts.length > 0 && store.contacts.map(contact => {
+					return(
+						<Card  contact = {contact}  />
+					)
+				})}
 
-						<div className="col-md-3">
-							<img src="..." className="img-fluid rounded-start" alt="..."/>
-						</div>
-						<div className="col-md-6">
-							<div className="card-body">
-								<h5 className="card-title">Juan Perez</h5>
-								<p className="card-text">This is a wider </p>
-							</div>
-						</div>
-
-
-						<div className="col-md-3">
-							<button>Editar</button>
-							<button>Borrar</button>
-						</div>
-
-					</div>
-				</div>
+				
 			</div>
 		</div>
 	);
