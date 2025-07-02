@@ -1,68 +1,3 @@
-// // Import necessary components from react-router-dom and other parts of the application.
-// import { Link } from "react-router-dom";
-// import useGlobalReducer from "../hooks/useGlobalReducer";  // Custom hook for accessing the global state.
-
-// export const Demo = () => {
-//   // Access the global state and dispatch function using the useGlobalReducer hook.
-//   const { store, dispatch } = useGlobalReducer()
-
-//   return (
-    
-    
-    
-    
-//     <div className="container row">
-       
-//       <form>
-//         <div className="mb-3">
-//           <label for="inputName" className="form-label">Full Name</label>
-//           <input type="text" className="form-control" id="inputName" placeholder="Full Name" aria-describedby=""/>
-//         </div>
-
-//         <div className="mb-3">
-//           <label for="inputEmail" className="form-label">Email</label>
-//           <input type="email" className="form-control" id="inputEmail" placeholder="Enter Email" aria-describedby="emailHelp"/>
-//         </div>
-
-//         <div className="mb-3">
-//           <label for="inputPhone" className="form-label">Phone</label>
-//           <input type="number" className="form-control" id="inputPhone" aria-describedby="" placeholder="Enter Phone"/>
-//         </div>
-
-//         <div className="mb-3">
-//           <label for="inputPassword" className="form-label">Password</label>
-//           <input type="password" className="form-control" id="inputPassword" placeholder="Enter Password"/>
-//         </div>
-
-//         <div className="mb-3">
-//           <label for="inputAddress" className="form-label">Address</label>
-//           <input type="text" className="form-control" id="inputAddress" placeholder="Enter Address" aria-describedby=""/>
-//         </div>
-
-//         <Link to="/">
-//           <button type="submit" className="btn btn-primary col-md-12">Save</button>
-//         </Link>
-//         <Link to="/">
-//           <a className="col-md-12">or get back to contacts</a>
-//         </Link>
-//       </form>
-      
-//       <br />
-
-//       <Link to="/">
-//         <button className="btn btn-primary col-md-12">Save</button>
-//       </Link>
-//       <Link to="/">
-//         <a className="col-md-12">or get back to contacts</a>
-//       </Link>
-//     </div>
-    
-//   );
-// };
-
-
-
-
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer";
 import { createContact, updateContact } from "../actions/contactActions";
@@ -85,6 +20,7 @@ export const Demo = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   // Determinar si estamos editando
+  // Si hay un contactId en la URL, entonces estamos editando. Si no, estamos creando un nuevo contacto.
   const isEditing = Boolean(contactId);
   
   // Cargar datos del contacto si estamos editando
@@ -108,9 +44,9 @@ export const Demo = () => {
   // Manejar cambios en el formulario
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
+    setFormData(prev => ({    // prev es el estado anterior, es decir, el valor actual de formData antes del cambio.
+      ...prev,                // Copia todo lo que ya había en formData
+      [name]: value   // Actualiza solo el campo que está cambiando (ej, name o email). Es una forma segura de actualizar solo una parte del estado sin borrar el resto.
     }));
     
     // Limpiar error cuando el usuario empiece a escribir

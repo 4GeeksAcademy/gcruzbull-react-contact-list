@@ -79,7 +79,7 @@ import { deleteContact } from '../actions/contactActions';
 
 const Card = ({ contact }) => {
   const { dispatch } = useGlobalReducer();
-  const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
   // Función para manejar la eliminación
@@ -88,7 +88,7 @@ const Card = ({ contact }) => {
     
     try {
       await deleteContact(dispatch, contact.id);
-      setShowModal(false);
+      setShowDeleteModal(false);
     } catch (error) {
       console.error('Error deleting contact:', error);
       // Aquí podrías mostrar una notificación de error
@@ -115,27 +115,27 @@ const Card = ({ contact }) => {
           <div className="col-md-6">
             <div className="card-body">
               <h5 className="d-flex card-title justify-content-start ps-1">
-                {contact.name || 'Sin nombre'}
+                {contact.name || 'Without name'}
               </h5>
               
               <div className="d-flex p-1">
                 <i className="fa-solid fa-location-dot align-content-center text-muted"></i>
                 <p className="card-text ps-2 align-content-center mb-0">
-                  {contact.address || 'Sin dirección'}
+                  {contact.address || 'Without adress'}
                 </p>
               </div>
               
               <div className="d-flex p-1">
                 <i className="fa-solid fa-phone-flip align-content-center text-muted"></i>
                 <p className="card-text ps-2 align-content-center mb-0">
-                  {contact.phone || 'Sin teléfono'}
+                  {contact.phone || 'Without phone'}
                 </p>
               </div>
               
               <div className="d-flex p-1">
                 <i className="fa-solid fa-envelope align-content-center text-muted"></i>
                 <p className="card-text ps-2 align-content-center mb-0">
-                  {contact.email || 'Sin email'}
+                  {contact.email || 'Without email'}
                 </p>
               </div>
             </div>
@@ -147,7 +147,7 @@ const Card = ({ contact }) => {
             <Link to={`/demo/${contact.id}`}>
               <button 
                 className="m-1 btn border-0 bg-transparent"
-                title="Editar contacto"
+                title="Edit contact"
               >
                 <i className="fa-solid fa-pencil text-primary"></i>
               </button>
@@ -157,8 +157,8 @@ const Card = ({ contact }) => {
             <button 
               type="button" 
               className="btn border-0 bg-transparent" 
-              onClick={() => setShowModal(true)}
-              title="Eliminar contacto"
+              onClick={() => setShowDeleteModal(true)}
+              title="Delete contact"
             >
               <i className="fa-solid fa-trash-can text-danger"></i>
             </button>
@@ -167,7 +167,7 @@ const Card = ({ contact }) => {
       </div>
 
       {/* Modal de confirmación */}
-      {showModal && (
+      {showDeleteModal && (
         <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
           <div className="modal-dialog">
             <div className="modal-content">
@@ -179,7 +179,7 @@ const Card = ({ contact }) => {
                 <button 
                   type="button" 
                   className="btn-close" 
-                  onClick={() => setShowModal(false)}
+                  onClick={() => setShowDeleteModal(false)}
                   disabled={isDeleting}
                 ></button>
               </div>
@@ -199,11 +199,11 @@ const Card = ({ contact }) => {
                 <button 
                   type="button" 
                   className="btn btn-primary" 
-                  onClick={() => setShowModal(false)}
+                  onClick={() => setShowDeleteModal(false)}
                   disabled={isDeleting}
                 >
                   {/* <i className="fas fa-times me-2"></i> */}
-                  Cancel
+                  Oh no!
                 </button>
                 <button 
                   type="button" 
